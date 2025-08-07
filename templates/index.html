@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Second-Hand Car Price Predictor</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Global Styles */
+        body {
+            background-color: #f4f4f9;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+        }
+
+        h2 {
+            font-size: 28px;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        h3 {
+            font-size: 20px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        p {
+            font-size: 16px;
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+        select,
+        input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0 20px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+            background-color: #fafafa;
+        }
+
+        select:focus,
+        input[type="number"]:focus {
+            border-color: #3498db;
+            background-color: #fff;
+            outline: none;
+        }
+
+        button {
+            padding: 12px 25px;
+            background-color: #3498db;
+            border: none;
+            color: white;
+            font-size: 18px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        button:disabled {
+            background-color: #b2b2b2;
+            cursor: not-allowed;
+        }
+
+        .row {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+        }
+
+        .row select,
+        .row input {
+            width: 48%;
+        }
+
+        .prediction-text {
+            font-size: 20px;
+            color: #333;
+            margin-top: 30px;
+        }
+
+        /* Style adjustments for hover effects */
+        select:hover,
+        input[type="number"]:hover {
+            border-color: #3498db;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .row {
+                flex-direction: column;
+            }
+
+            .row select,
+            .row input {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <form action="{{ url_for('predict')}}" method="post">
+            <h2>Second-Hand Car Price Predictor</h2>
+            <p style="font-size: 16px; font-weight: normal; text-align: left; color: #615a5a; margin-bottom: 30px;">
+                Hello, I’m Mehrdad. I have built, developed, and designed this price predictor using advanced Regression
+                Machine Learning algorithms. Please provide the following information to estimate the price of your
+                second-hand car.
+            </p>
+            <h3>Choose the Brand & Model:</h3>
+            <div class="row">
+                <select name="Brand" id="brand" required>
+                    <option value="">-- Select Brand --</option>
+                    <option value="Audi">Audi</option>
+                    <option value="BMW">BMW</option>
+                    <option value="Chevrolet">Chevrolet</option>
+                    <option value="Ford">Ford</option>
+                    <option value="Honda">Honda</option>
+                    <option value="Hyundai">Hyundai</option>
+                    <option value="Kia">Kia</option>
+                    <option value="Mercedes">Mercedes</option>
+                    <option value="Toyota">Toyota</option>
+                    <option value="Volkswagen">Volkswagen</option>
+                </select>
+                <select name="Model" id="model" required>
+                    <option value="">-- Select Model --</option>
+                </select>
+            </div>
+
+            <h3>Fuel Type & Transmission:</h3>
+            <div class="row">
+                <select name="Fuel" id="fuel" required>
+                    <option value="">-- Select Fuel Type --</option>
+                    <option value="Diesel">Diesel</option>
+                    <option value="Electric">Electric</option>
+                    <option value="Hybrid">Hybrid</option>
+                    <option value="Petrol">Petrol</option>
+                </select>
+
+                <select name="Transmission" id="transmission" required>
+                    <option value="">-- Select Transmission --</option>
+                    <option value="Automatic">Automatic</option>
+                    <option value="Manual">Manual</option>
+                    <option value="Semi-Automatic">Semi-Automatic</option>
+                </select>
+            </div>
+
+            <h3>Year, Engine Size & Mileage:</h3>
+            <div class="row">
+                <select name="Year" id="year" required>
+                    <script>
+                        for (let year = 2000; year <= 2023; year++) {
+                            document.write(`<option value="${year}">${year}</option>`);
+                        }
+                    </script>
+                </select>
+                <input id="engineSize" name="EngineSize" type="number" step="0.1" placeholder="Enter Engine Size" />
+                <input id="mileage" name="Mileage" type="number" placeholder="Enter Mileage (KM)" />
+            </div>
+
+            <h3>Doors & Owners:</h3>
+            <div class="row">
+                <select name="Doors" id="doors" required>
+                    <option value="">-- Select Number of Doors --</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+                <select name="OwnerCount" id="OwnerCount" required>
+                    <option value="">-- Select Number of Owners --</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+            </div>
+
+            <button id="submitBtn" type="button" onclick="submitForm()" disabled>Predict</button>
+        </form>
+
+        <br><br>
+        <h3 class="prediction-text">{{ prediction_text }}</h3>
+    </div>
+
+    <script>
+        const modelOptions = {
+            "Audi": ["A3", "A4", "Q5"],
+            "BMW": ["3 Series", "5 Series", "X5"],
+            "Chevrolet": ["Equinox", "Impala", "Malibu"],
+            "Ford": ["Explorer", "Fiesta", "Focus"],
+            "Honda": ["Accord", "CR-V", "Civic"],
+            "Hyundai": ["Elantra", "Sonata", "Tucson"],
+            "Kia": ["Optima", "Rio", "Sportage"],
+            "Mercedes": ["C-Class", "E-Class", "GLA"],
+            "Toyota": ["Camry", "Corolla", "RAV4"],
+            "Volkswagen": ["Golf", "Passat", "Tiguan"]
+        };
+
+        document.getElementById("brand").addEventListener("change", function () {
+            const brand = this.value;
+            const modelSelect = document.getElementById("model");
+
+            modelSelect.innerHTML = '<option value="">-- Select Model --</option>';
+            if (brand in modelOptions) {
+                modelOptions[brand].forEach(model => {
+                    const option = document.createElement("option");
+                    option.value = model;
+                    option.textContent = model;
+                    modelSelect.appendChild(option);
+                });
+            }
+            checkForm();
+        });
+
+        document.getElementById("fuel").addEventListener("change", checkForm);
+        document.getElementById("transmission").addEventListener("change", checkForm);
+        document.getElementById("year").addEventListener("change", checkForm);
+        document.getElementById("doors").addEventListener("change", checkForm);
+        document.getElementById("OwnerCount").addEventListener("change", checkForm);
+        document.getElementById("engineSize").addEventListener("input", checkForm);
+        document.getElementById("mileage").addEventListener("input", checkForm);
+
+        function checkForm() {
+            const brand = document.getElementById("brand").value;
+            const model = document.getElementById("model").value;
+            const fuel = document.getElementById("fuel").value;
+            const transmission = document.getElementById("transmission").value;
+            const year = document.getElementById("year").value;
+            const doors = document.getElementById("doors").value;
+            const ownerCount = document.getElementById("OwnerCount").value;
+            const engineSize = document.getElementById("engineSize").value;
+            const mileage = document.getElementById("mileage").value;
+            const submitBtn = document.getElementById("submitBtn");
+
+            if (brand && model && fuel && transmission && year && doors && ownerCount && engineSize && mileage) {
+                submitBtn.disabled = false;
+            } else {
+                submitBtn.disabled = true;
+            }
+        }
+
+        function submitForm() {
+            const form = document.querySelector("form");
+            form.submit(); // This submits the form without jumping to the top
+        }
+    </script>
+</body>
+
+</html>
