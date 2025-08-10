@@ -1,4 +1,5 @@
 import pickle
+import os
 from flask import Flask, request, jsonify, app, url_for, render_template
 import pandas as pd
 import numpy as np
@@ -6,12 +7,21 @@ from sklearn.preprocessing import OneHotEncoder
 from catboost import CatBoostRegressor
 
 
-app = Flask(__name__) # create an app instance
-model = pickle.load(open('C:/Users/user/Documents/DATA SCIENCE/Projects/CAR PRICE PREDICTION/models/Model.pkl', 'rb'))
-Brand_Encoder = pickle.load(open('C:/Users/user/Documents/DATA SCIENCE/Projects/CAR PRICE PREDICTION/models/Brand_Encoder.pkl', 'rb'))
-Model_Encoder = pickle.load(open('C:/Users/user/Documents/DATA SCIENCE/Projects/CAR PRICE PREDICTION/models/Model_Encoder.pkl', 'rb'))
-OneHot_Encoder = pickle.load(open('C:/Users/user/Documents/DATA SCIENCE/Projects/CAR PRICE PREDICTION/models/OneHot_Encoder.pkl', 'rb'))
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
+app = Flask(__name__) # create an app instance
+
+# Build full paths to your model files
+model_path = os.path.join(BASE_DIR, 'models', 'Model.pkl')
+brand_encoder_path = os.path.join(BASE_DIR, 'models', 'Brand_Encoder.pkl')
+model_encoder_path = os.path.join(BASE_DIR, 'models', 'Model_Encoder.pkl')
+onehot_encoder_path = os.path.join(BASE_DIR, 'models', 'OneHot_Encoder.pkl')
+
+# Load models/encoders
+model = pickle.load(open(model_path, 'rb'))
+Brand_Encoder = pickle.load(open(brand_encoder_path, 'rb'))
+Model_Encoder = pickle.load(open(model_encoder_path, 'rb'))
+OneHot_Encoder = pickle.load(open(onehot_encoder_path, 'rb'))
 
 
 @app.route('/',methods=['GET'])
