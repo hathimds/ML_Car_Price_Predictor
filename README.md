@@ -115,5 +115,11 @@ https://ml-car-price-predictor-0v6r.onrender.com
 
 ---
 
+## 📬 Connect with Me
+Feel free to reach out or check out more of my projects on LinkedIn:  
+[Haathim Manaf - LinkedIn](https://www.linkedin.com/in/haathim-manaf)
+
+---
+
 ## 📜 License
 This project is licensed under the MIT License.
