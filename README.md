@@ -1,4 +1,4 @@
-# 🚗 Secondhand Car Price Prediction — End-to-End ML Project
+# 🚗 Secondhand Car Price Predictor — End-to-End ML Project
 
 This project demonstrates a **complete machine learning pipeline**, from **business understanding to deployment**, by building a **Secondhand Car Price Predictor** using Python, Flask, and machine learning models.
 
